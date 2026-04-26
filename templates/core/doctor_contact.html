@@ -1,0 +1,119 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Expert Consultations | DocX{% endblock %}
+{% block header_title %}Medical Network{% endblock %}
+{% block header_subtitle %}Connect with verified healthcare professionals{% endblock %}
+
+{% block content %}
+<div class="row g-4 animate-slide-up">
+    <!-- Doctor Card 1 -->
+    <div class="col-md-6 col-xl-4">
+        <div class="glass-card p-4 h-100 position-relative overflow-hidden">
+            <div class="position-absolute top-0 end-0 p-3">
+                <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2">
+                    <span class="spinner-grow spinner-grow-sm me-1" style="width: 8px; height: 8px;"></span> Online
+                </span>
+            </div>
+            
+            <div class="d-flex align-items-center mb-4">
+                <div class="position-relative">
+                    <img src="https://ui-avatars.com/api/?name=Dr+Aditi+Sharma&background=8b5cf6&color=fff&size=128&bold=true" class="rounded-circle shadow-lg border border-white border-opacity-10" width="80" alt="Doctor">
+                </div>
+                <div class="ms-4">
+                    <h5 class="fw-800 mb-1">Dr. Aditi Sharma</h5>
+                    <p class="text-primary-gradient fw-600 mb-0">General Physician</p>
+                    <div class="small text-warning">
+                        <i class="bi bi-star-fill"></i> 4.9 <span class="text-muted">(1.2k reviews)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <p class="text-muted smaller mb-2">SPECIALIZATION</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="glass-card px-2 py-1 smaller border-0" style="background: rgba(255,255,255,0.05);">Internal Medicine</span>
+                    <span class="glass-card px-2 py-1 smaller border-0" style="background: rgba(255,255,255,0.05);">Chronic Care</span>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <a href="tel:1234567890" class="btn-premium flex-grow-1 justify-content-center py-2">
+                    <i class="bi bi-telephone-fill"></i> Call Now
+                </a>
+                <button class="btn glass-card border-0 p-2 px-3 text-white">
+                    <i class="bi bi-chat-dots-fill"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Doctor Card 2 -->
+    <div class="col-md-6 col-xl-4">
+        <div class="glass-card p-4 h-100 position-relative overflow-hidden">
+            <div class="position-absolute top-0 end-0 p-3">
+                <span class="badge rounded-pill bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 px-3 py-2">
+                    Busy
+                </span>
+            </div>
+            
+            <div class="d-flex align-items-center mb-4">
+                <img src="https://ui-avatars.com/api/?name=Dr+Vikram+Singh&background=3b82f6&color=fff&size=128&bold=true" class="rounded-circle shadow-lg border border-white border-opacity-10" width="80" alt="Doctor">
+                <div class="ms-4">
+                    <h5 class="fw-800 mb-1">Dr. Vikram Singh</h5>
+                    <p class="text-primary-gradient fw-600 mb-0">Cardiologist</p>
+                    <div class="small text-warning">
+                        <i class="bi bi-star-fill"></i> 4.8 <span class="text-muted">(850 reviews)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <p class="text-muted smaller mb-2">SPECIALIZATION</p>
+                <div class="d-flex flex-wrap gap-2">
+                    <span class="glass-card px-2 py-1 smaller border-0" style="background: rgba(255,255,255,0.05);">Heart Surgery</span>
+                    <span class="glass-card px-2 py-1 smaller border-0" style="background: rgba(255,255,255,0.05);">Diagnostics</span>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <a href="#" class="btn-premium flex-grow-1 justify-content-center py-2 opacity-50 cursor-not-allowed">
+                    <i class="bi bi-calendar-event-fill"></i> Book Slot
+                </a>
+                <button class="btn glass-card border-0 p-2 px-3 text-white">
+                    <i class="bi bi-info-circle-fill"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Info Card -->
+    <div class="col-xl-4">
+        <div class="glass-card p-4 h-100 border-primary border-opacity-20" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, transparent 100%);">
+            <h4 class="fw-800 mb-4">Emergency Support</h4>
+            <p class="text-muted mb-4">Immediate assistance available 24/7 for critical medical situations.</p>
+            
+            <div class="d-flex flex-column gap-3">
+                <div class="d-flex align-items-center p-3 glass-card border-0" style="background: rgba(239, 68, 68, 0.1);">
+                    <div class="bg-danger rounded-4 p-3 me-3">
+                        <i class="bi bi-telephone-plus-fill text-white fs-4"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0 smaller text-danger fw-bold">HELPLINE</p>
+                        <h5 class="mb-0 fw-800 text-white">102 / 108</h5>
+                    </div>
+                </div>
+
+                <div class="d-flex align-items-center p-3 glass-card border-0">
+                    <div class="bg-primary rounded-4 p-3 me-3">
+                        <i class="bi bi-geo-alt-fill text-white fs-4"></i>
+                    </div>
+                    <div>
+                        <p class="mb-0 smaller text-muted fw-bold">NEAREST CLINIC</p>
+                        <h5 class="mb-0 fw-800 text-white">DocX Hub Central</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
