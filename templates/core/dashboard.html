@@ -97,7 +97,7 @@
                 <div class="position-relative d-inline-block mb-3">
                     <canvas id="healthScoreGauge" width="200" height="200"></canvas>
                     <div class="position-absolute top-50 start-50 translate-middle text-center">
-                        <h2 class="fw-bold mb-0 text-primary">85</h2>
+                        <h2 class="fw-bold mb-0 text-primary">{{ health_score }}</h2>
                         <small class="text-muted fw-semibold">SCORE</small>
                     </div>
                 </div>
@@ -239,9 +239,10 @@
                 </div>
                 {% else %}
                 <div class="text-center py-5">
-                    <img src="https://illustrations.popsy.co/blue/empty-state.svg" alt="Empty" style="height: 150px;">
-                    <p class="text-muted mt-3">No health data logged yet.</p>
-                    <a href="{% url 'add_symptom' %}" class="btn btn-primary rounded-pill">Start Logging</a>
+                    <i class="bi bi-folder2-open text-muted opacity-25 d-block mb-3" style="font-size: 4rem;"></i>
+                    <h5 class="fw-bold text-dark">No Recent Logs</h5>
+                    <p class="text-muted">No health data logged yet.</p>
+                    <a href="{% url 'add_symptom' %}" class="btn btn-primary rounded-pill px-4">Start Logging</a>
                 </div>
                 {% endif %}
             </div>
@@ -262,10 +263,10 @@
     new Chart(ctxLine, {
         type: 'line',
         data: {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            labels: {{ chart_labels|safe }},
             datasets: [{
                 label: 'Vital Signs',
-                data: [65, 59, 80, 81, 56, 55, 40],
+                data: {{ chart_data|safe }},
                 borderColor: primaryColor,
                 backgroundColor: 'rgba(13, 110, 253, 0.1)',
                 borderWidth: 4,
@@ -296,7 +297,7 @@
         type: 'doughnut',
         data: {
             datasets: [{
-                data: [85, 15],
+                data: [{{ health_score }}, {{ health_score_remainder }}],
                 backgroundColor: [primaryColor, 'rgba(0,0,0,0.05)'],
                 borderWidth: 0,
                 circumference: 270,

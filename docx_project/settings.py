@@ -116,9 +116,9 @@ LOGOUT_REDIRECT_URL = 'login'
 GROQ_API_KEY = os.environ.get('GROQ_API_KEY', 'your-groq-api-key-here')
 
 # Email settings
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # Use console for development
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  # Changed from console to SMTP to send real emails
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'your-email@gmail.com'
-EMAIL_HOST_PASSWORD = 'your-email-password'
+EMAIL_HOST_USER = 'example-email123@gmail.com'
+EMAIL_HOST_PASSWORD = 'your-email-password-here' # YOU MUST CHANGE THIS TO YOUR GOOGLE APP PASSWORD

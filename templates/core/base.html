@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=1.2" />
 
     {% block extra_css %}{% endblock %}
     <style>
@@ -61,9 +61,54 @@
         background-color: #1a1a1a !important;
         color: #b0b0b0 !important;
       }
+      
+      /* Preloader */
+      #preloader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: #ffffff;
+        z-index: 99999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+      }
+      body.dark-mode #preloader {
+        background-color: #121212;
+      }
+      .loader-pulse {
+        width: 50px;
+        height: 50px;
+        background-color: #0d6efd;
+        border-radius: 50%;
+        animation: pulse-loader 1s infinite cubic-bezier(0.455, 0.03, 0.515, 0.955);
+      }
+      @keyframes pulse-loader {
+        0% { transform: scale(0); opacity: 1; }
+        100% { transform: scale(1.5); opacity: 0; }
+      }
+      .loader-text {
+        animation: pulse-text 1.5s infinite ease-in-out;
+      }
+      @keyframes pulse-text {
+        0%, 100% { opacity: 0.5; transform: translateY(0); }
+        50% { opacity: 1; transform: translateY(-2px); }
+      }
     </style>
   </head>
   <body>
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="d-flex flex-column align-items-center">
+            <div class="loader-pulse mb-3"></div>
+            <h3 class="fw-800 text-primary loader-text mb-0" style="letter-spacing: 3px;">DocX</h3>
+            <div class="small text-muted loader-text" style="letter-spacing: 1px; font-size: 10px;">INTELLIGENCE</div>
+        </div>
+    </div>
+    
     <!-- Mesh Background -->
     <div class="mesh-bg">
         <div class="mesh-sphere" style="width: 400px; height: 400px; background: rgba(13, 110, 253, 0.2); top: -100px; left: -100px;"></div>
@@ -109,6 +154,20 @@
             </li>
           </ul>
           <ul class="navbar-nav">
+            <!-- Notification Bell -->
+            <li class="nav-item dropdown me-2">
+              <a class="nav-link text-white position-relative" href="#" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-bell-fill fs-5"></i>
+                <span id="notif-badge" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle d-none" style="margin-top: 10px; margin-left: -5px;">
+                  <span class="visually-hidden">New alerts</span>
+                </span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" aria-labelledby="notificationDropdown" style="width: 320px; max-height: 400px; overflow-y: auto; background: var(--glass-bg); backdrop-filter: blur(10px);" id="notif-list">
+                <li><h6 class="dropdown-header fw-bold text-primary border-bottom pb-2">Notifications</h6></li>
+                <li id="empty-notif"><span class="dropdown-item text-muted small text-center py-4">No new notifications</span></li>
+              </ul>
+            </li>
+            
             <li class="nav-item me-2">
               <button class="btn btn-link nav-link text-white" id="theme-toggle" onclick="toggleTheme(event)" title="Toggle Dark/Light Mode">
                 <i class="bi bi-sun-fill" id="theme-icon"></i>
@@ -132,7 +191,7 @@
                 </li>
                 <li><hr class="dropdown-divider" /></li>
                 <li>
-                  <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="document.getElementById('logout-form').submit();">
+                  <a class="dropdown-item text-danger" href="javascript:void(0)" onclick="sessionStorage.removeItem('docx_notifications'); document.getElementById('logout-form').submit();">
                     <i class="bi bi-box-arrow-right me-2"></i>Logout
                   </a>
                 </li>
@@ -170,7 +229,7 @@
     <footer class="bg-light text-center text-muted py-3 mt-5">
       <div class="container">
         <p class="mb-0">
-          &copy; 2024 DocX - Smart Healthcare Assistant. All rights reserved.
+          &copy; {% now "Y" %} DocX - Smart Healthcare Assistant. All rights reserved.
         </p>
         <p class="mb-0">
           <small
@@ -231,6 +290,72 @@
       {% csrf_token %}
     </form>
 
+    <!-- Preloader Script -->
+    <script>
+      window.addEventListener('load', function() {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+          preloader.style.opacity = '0';
+          setTimeout(() => { preloader.style.visibility = 'hidden'; }, 400);
+        }
+      });
+    </script>
+
+    <!-- Notification System Script -->
+    <script>
+      function renderNotification(message, type = 'info', isNew = true) {
+        const notifList = document.getElementById('notif-list');
+        const emptyNotif = document.getElementById('empty-notif');
+        const badge = document.getElementById('notif-badge');
+        
+        if (notifList) {
+            if (emptyNotif) emptyNotif.style.display = 'none';
+            if (isNew && badge) badge.classList.remove('d-none');
+            
+            const li = document.createElement('li');
+            const icon = type === 'success' ? '<i class="fa-solid fa-circle-check text-success"></i>' : '<i class="fa-solid fa-bell text-primary"></i>';
+            
+            li.innerHTML = `
+              <a class="dropdown-item py-3 border-bottom text-wrap dropdown-item-custom" href="#" style="font-size: 0.85rem; white-space: normal;">
+                <div class="d-flex align-items-start gap-3">
+                    <div class="fs-5">${icon}</div>
+                    <div>${message}<br><small class="text-muted" style="font-size: 0.7rem;">${isNew ? 'Just now' : 'Earlier'}</small></div>
+                </div>
+              </a>
+            `;
+            // Insert right after the header
+            notifList.insertBefore(li, notifList.children[1]);
+        }
+      }
+
+      window.addNotification = function(message, type = 'info') {
+        renderNotification(message, type, true);
+        
+        // Save to sessionStorage
+        let notifs = JSON.parse(sessionStorage.getItem('docx_notifications') || '[]');
+        notifs.push({ message, type });
+        sessionStorage.setItem('docx_notifications', JSON.stringify(notifs));
+      }
+      
+      // Load saved notifications on page load
+      window.addEventListener('DOMContentLoaded', function() {
+        let notifs = JSON.parse(sessionStorage.getItem('docx_notifications') || '[]');
+        notifs.forEach(n => renderNotification(n.message, n.type, false));
+      });
+      
+      // Clear badge on click
+      document.getElementById('notificationDropdown')?.addEventListener('click', function() {
+        document.getElementById('notif-badge')?.classList.add('d-none');
+      });
+    </script>
+    
+    <style>
+        .dropdown-item-custom:hover { background-color: rgba(13, 110, 253, 0.05); }
+        body.dark-mode .dropdown-item-custom { color: #e9ecef; }
+        body.dark-mode .dropdown-item-custom:hover { background-color: rgba(255, 255, 255, 0.05); }
+        body.dark-mode #notif-list { background: #1a1a1a; border: 1px solid #333 !important; }
+    </style>
+    
     {% block extra_js %}{% endblock %}
   </body>
 </html>

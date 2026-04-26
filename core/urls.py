@@ -29,6 +29,7 @@ urlpatterns = [
     
     # Doctor contact
     path('doctor-contact/', views.doctor_contact_view, name='doctor_contact'),
+    path('book-appointment/', views.book_appointment, name='book_appointment'),
     
     # Redirect root to dashboard (if logged in) or login
     path('', views.dashboard_view, name='home'),

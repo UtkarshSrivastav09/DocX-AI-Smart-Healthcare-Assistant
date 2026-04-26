@@ -51,6 +51,54 @@ def profile_view(request):
 # 🔹 Dashboard
 @login_required
 def dashboard_view(request):
+    from datetime import timedelta
+    from django.utils import timezone
+    import json
+
+    today = timezone.now().date()
+    
+    if request.user.is_superuser:
+        symptoms_qs = SymptomEntry.objects.all()
+    else:
+        symptoms_qs = SymptomEntry.objects.filter(user=request.user)
+
+    # Calculate dynamic Health Score & Chart Data based on average severity
+    recent_7_days = timezone.now() - timedelta(days=7)
+    recent_logs = list(symptoms_qs.filter(created_at__gte=recent_7_days))
+    
+    if recent_logs:
+        total_score = 0
+        for log in recent_logs:
+            if log.severity == 'High': total_score += 40
+            elif log.severity == 'Medium': total_score += 70
+            elif log.severity == 'Low': total_score += 90
+        health_score = int(total_score / len(recent_logs))
+    else:
+        health_score = 100
+
+    chart_labels = []
+    chart_data = []
+    
+    for i in range(6, -1, -1):
+        day = today - timedelta(days=i)
+        chart_labels.append(day.strftime("%a"))
+        
+        day_logs = [log for log in recent_logs if log.created_at.date() == day]
+        if day_logs:
+            day_total = 0
+            for log in day_logs:
+                if log.severity == 'High': day_total += 40
+                elif log.severity == 'Medium': day_total += 70
+                elif log.severity == 'Low': day_total += 90
+            day_score = int(day_total / len(day_logs))
+        else:
+            day_score = 100
+            
+        chart_data.append(day_score)
+        
+    chart_labels_json = json.dumps(chart_labels)
+    chart_data_json = json.dumps(chart_data)
+
     if request.user.is_superuser:
         recent_symptoms = SymptomEntry.objects.all().order_by('-created_at')[:10]
         total_patients = User.objects.filter(is_superuser=False).count()
@@ -62,11 +110,21 @@ def dashboard_view(request):
             'is_admin': True,
             'total_patients': total_patients,
             'total_logs': total_logs,
-            'high_severity': high_severity
+            'high_severity': high_severity,
+            'health_score': health_score,
+            'health_score_remainder': 100 - health_score,
+            'chart_labels': chart_labels_json,
+            'chart_data': chart_data_json,
         })
     
-    recent_symptoms = SymptomEntry.objects.filter(user=request.user)[:5]
-    return render(request, 'core/dashboard.html', {'recent_symptoms': recent_symptoms})
+    recent_symptoms = SymptomEntry.objects.filter(user=request.user).order_by('-created_at')[:5]
+    return render(request, 'core/dashboard.html', {
+        'recent_symptoms': recent_symptoms,
+        'health_score': health_score,
+        'health_score_remainder': 100 - health_score,
+        'chart_labels': chart_labels_json,
+        'chart_data': chart_data_json,
+    })
 
 
 # 🔹 Add Symptom
@@ -206,28 +264,84 @@ No prescriptions recommended at this stage. Requires physical validation."""
 
     return JsonResponse({"error": "Invalid request"})
 
-# 🔹 Send Email (NEW - added only)
+# 🔹 Book Appointment (Email Notification)
 from django.core.mail import send_mail
+from django.conf import settings
+import json
 
 @login_required
-def send_email(request):
+def book_appointment(request):
     if request.method == "POST":
-        name = request.POST.get('name')
-        subject = request.POST.get('subject')
-        message = request.POST.get('message')
-        to_email = request.POST.get('to_email')
+        try:
+            data = json.loads(request.body)
+            doctor_name = data.get('doctor_name')
+            date = data.get('date')
+            time_slot = data.get('time_slot')
+            reason = data.get('reason')
+            
+            # The hardcoded email ID where you want to receive notifications. 
+            # YOU CAN CHANGE 'your-hospital-email@gmail.com' TO YOUR ACTUAL EMAIL ID HERE.
+            admin_email = "shubhsrivastav9369@gmail.com"
+            sender_email = getattr(settings, 'EMAIL_HOST_USER', admin_email)
+            
+            subject = f"🩺 New Appointment Booking: {doctor_name}"
+            
+            # Plain text fallback
+            message = (
+                f"A new appointment has been booked via DocX-AI Smart Healtcare Website.\n\n"
+                f"Patient: {request.user.username} ({request.user.email})\n"
+                f"Doctor: {doctor_name}\n"
+                f"Date: {date}\n"
+                f"Time Slot: {time_slot}\n"
+                f"Reason for Visit: {reason}\n"
+            )
 
-        full_message = f"From: {name}\n\n{message}"
-
-        send_mail(
-            subject,
-            full_message,
-            settings.EMAIL_HOST_USER,   # sender email
-            [to_email],                # receiver email
-            fail_silently=False,
-        )
-
-    return redirect('doctor_contact')
+            # Professional HTML Email Template
+            html_message = f"""
+            <html>
+            <body style="font-family: Arial, sans-serif; background-color: #f4f7f6; padding: 20px; color: #333;">
+                <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                    <div style="background-color: #0d6efd; color: #ffffff; padding: 20px; text-align: center;">
+                        <h2 style="margin: 0;">DocX Hospital Network</h2>
+                        <p style="margin: 5px 0 0; opacity: 0.9;">New Appointment Request</p>
+                    </div>
+                    <div style="padding: 30px;">
+                        <h3 style="color: #0d6efd; border-bottom: 2px solid #e9ecef; padding-bottom: 10px; margin-top: 0;">Patient Details</h3>
+                        <p><strong>Name:</strong> {request.user.username}</p>
+                        <p><strong>Email:</strong> {request.user.email}</p>
+                        
+                        <h3 style="color: #0d6efd; border-bottom: 2px solid #e9ecef; padding-bottom: 10px; margin-top: 25px;">Appointment Details</h3>
+                        <p><strong>Specialist:</strong> {doctor_name}</p>
+                        <p><strong>Date:</strong> {date}</p>
+                        <p><strong>Time Slot:</strong> {time_slot}</p>
+                        
+                        <div style="background-color: #f8f9fa; border-left: 4px solid #ffc107; padding: 15px; margin-top: 25px; border-radius: 4px;">
+                            <h4 style="margin-top: 0; margin-bottom: 10px; color: #6c757d;">Reason for Visit / Patient Message:</h4>
+                            <p style="margin: 0; font-style: italic; color: #495057;">"{reason}"</p>
+                        </div>
+                    </div>
+                    <div style="background-color: #e9ecef; padding: 15px; text-align: center; font-size: 12px; color: #6c757d;">
+                        This is an automated message from the DocX AI Smart Healthcare Assistant System.
+                    </div>
+                </div>
+            </body>
+            </html>
+            """
+            
+            send_mail(
+                subject,
+                message,
+                sender_email,  # From email
+                [admin_email],  # To email (sends to the hardcoded email)
+                html_message=html_message,
+                fail_silently=False,
+            )
+            return JsonResponse({"status": "success", "message": "Appointment booked and email sent."})
+        except Exception as e:
+            print("Email Error:", e)
+            return JsonResponse({"status": "error", "message": str(e)}, status=500)
+            
+    return JsonResponse({"error": "Invalid request"}, status=400)
 
 # 🔹 Health Tips
 @login_required
@@ -239,8 +353,84 @@ def health_tips_view(request):
 @login_required
 def doctor_contact_view(request):
     doctors = [
-        {'name': 'Dr. Sarah Johnson', 'specialization': 'General Physician'},
-        {'name': 'Dr. Michael Chen', 'specialization': 'Cardiologist'},
+        {
+            'name': 'Dr. Utkarsh Sri',
+            'specialization': 'General Physician',
+            'department': 'Internal Medicine',
+            'experience': 12,
+            'rating': 4.9,
+            'reviews': '1.2k',
+            'status': 'Online',
+            'image_url': 'https://ui-avatars.com/api/?name=Dr+Aditi+Sharma&background=8b5cf6&color=fff&size=128&bold=true',
+            'next_slot': 'Available Now',
+            'fee': '$50',
+            'tags': ['Internal Medicine', 'Chronic Care']
+        },
+        {
+            'name': 'Dr. Vikram Singh',
+            'specialization': 'Cardiologist',
+            'department': 'Cardiology',
+            'experience': 18,
+            'rating': 4.8,
+            'reviews': '850',
+            'status': 'Busy',
+            'image_url': 'https://ui-avatars.com/api/?name=Dr+Vikram+Singh&background=3b82f6&color=fff&size=128&bold=true',
+            'next_slot': 'Today, 4:30 PM',
+            'fee': '$120',
+            'tags': ['Heart Surgery', 'Diagnostics']
+        },
+        {
+            'name': 'Dr. Elena Rostova',
+            'specialization': 'Neurologist',
+            'department': 'Neurology',
+            'experience': 15,
+            'rating': 5.0,
+            'reviews': '2.1k',
+            'status': 'Offline',
+            'image_url': 'https://ui-avatars.com/api/?name=Dr+Elena+Rostova&background=10b981&color=fff&size=128&bold=true',
+            'next_slot': 'Tomorrow, 10:00 AM',
+            'fee': '$150',
+            'tags': ['Brain Mapping', 'Migraine Care']
+        },
+        {
+            'name': 'Dr. Rajesh Kumar',
+            'specialization': 'Pediatrician',
+            'department': 'Pediatrics',
+            'experience': 9,
+            'rating': 4.7,
+            'reviews': '420',
+            'status': 'Online',
+            'image_url': 'https://ui-avatars.com/api/?name=Dr+Rajesh+Kumar&background=f59e0b&color=fff&size=128&bold=true',
+            'next_slot': 'Available Now',
+            'fee': '$60',
+            'tags': ['Child Care', 'Vaccinations']
+        },
+        {
+            'name': 'Dr. Sarah Johnson',
+            'specialization': 'Psychiatrist',
+            'department': 'Mental Health',
+            'experience': 14,
+            'rating': 4.9,
+            'reviews': '930',
+            'status': 'Online',
+            'image_url': 'https://ui-avatars.com/api/?name=Dr+Sarah+Johnson&background=ec4899&color=fff&size=128&bold=true',
+            'next_slot': 'Available Now',
+            'fee': '$90',
+            'tags': ['Therapy', 'Anxiety']
+        },
+        {
+            'name': 'Dr. Michael Chen',
+            'specialization': 'Orthopedic',
+            'department': 'Orthopedics',
+            'experience': 22,
+            'rating': 4.6,
+            'reviews': '1.5k',
+            'status': 'Busy',
+            'image_url': 'https://ui-avatars.com/api/?name=Dr+Michael+Chen&background=6366f1&color=fff&size=128&bold=true',
+            'next_slot': 'Today, 6:00 PM',
+            'fee': '$110',
+            'tags': ['Joint Replacement', 'Sports Injuries']
+        }
     ]
     return render(request, 'core/doctor_contact.html', {'doctors': doctors})
 

@@ -460,6 +460,7 @@ body.dark-mode .card {
     margin-bottom: 0.25rem;
     background: var(--primary-gradient);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
 }
 
@@ -577,19 +578,30 @@ body.dark-mode .medical-report-content b, body.dark-mode .medical-report-content
 
 /* Glass Button */
 .btn-glass {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(5px);
-    color: white;
+    color: #212529 !important;
     border-radius: 12px;
     padding: 10px 25px;
     transition: all 0.3s ease;
 }
 
-.btn-glass:hover {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
+.btn-glass:hover, .btn-glass.active {
+    background: rgba(0, 0, 0, 0.1);
+    color: #0d6efd !important;
     transform: translateY(-2px);
+}
+
+body.dark-mode .btn-glass {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white !important;
+}
+
+body.dark-mode .btn-glass:hover, body.dark-mode .btn-glass.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: white !important;
 }
 
 

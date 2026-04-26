@@ -1,119 +1,336 @@
 {% extends 'core/base.html' %}
 
-{% block title %}Expert Consultations | DocX{% endblock %}
-{% block header_title %}Medical Network{% endblock %}
-{% block header_subtitle %}Connect with verified healthcare professionals{% endblock %}
+{% block title %}Medical Network | DocX Hospital{% endblock %}
+{% block header_title %}Expert Consultations{% endblock %}
+{% block header_subtitle %}Connect instantly with our verified medical professionals and specialists{% endblock %}
 
 {% block content %}
-<div class="row g-4 animate-slide-up">
-    <!-- Doctor Card 1 -->
-    <div class="col-md-6 col-xl-4">
-        <div class="glass-card p-4 h-100 position-relative overflow-hidden">
-            <div class="position-absolute top-0 end-0 p-3">
-                <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2">
-                    <span class="spinner-grow spinner-grow-sm me-1" style="width: 8px; height: 8px;"></span> Online
-                </span>
-            </div>
-            
-            <div class="d-flex align-items-center mb-4">
-                <div class="position-relative">
-                    <img src="https://ui-avatars.com/api/?name=Dr+Aditi+Sharma&background=8b5cf6&color=fff&size=128&bold=true" class="rounded-circle shadow-lg border border-white border-opacity-10" width="80" alt="Doctor">
-                </div>
-                <div class="ms-4">
-                    <h5 class="fw-800 mb-1">Dr. Aditi Sharma</h5>
-                    <p class="text-primary-gradient fw-600 mb-0">General Physician</p>
-                    <div class="small text-warning">
-                        <i class="bi bi-star-fill"></i> 4.9 <span class="text-muted">(1.2k reviews)</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <p class="text-muted smaller mb-2">SPECIALIZATION</p>
-                <div class="d-flex flex-wrap gap-2">
-                    <span class="glass-card px-2 py-1 smaller border-0" style="background: rgba(255,255,255,0.05);">Internal Medicine</span>
-                    <span class="glass-card px-2 py-1 smaller border-0" style="background: rgba(255,255,255,0.05);">Chronic Care</span>
-                </div>
-            </div>
-
-            <div class="d-flex gap-2">
-                <a href="tel:1234567890" class="btn-premium flex-grow-1 justify-content-center py-2">
-                    <i class="bi bi-telephone-fill"></i> Call Now
-                </a>
-                <button class="btn glass-card border-0 p-2 px-3 text-white">
-                    <i class="bi bi-chat-dots-fill"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Doctor Card 2 -->
-    <div class="col-md-6 col-xl-4">
-        <div class="glass-card p-4 h-100 position-relative overflow-hidden">
-            <div class="position-absolute top-0 end-0 p-3">
-                <span class="badge rounded-pill bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 px-3 py-2">
-                    Busy
-                </span>
-            </div>
-            
-            <div class="d-flex align-items-center mb-4">
-                <img src="https://ui-avatars.com/api/?name=Dr+Vikram+Singh&background=3b82f6&color=fff&size=128&bold=true" class="rounded-circle shadow-lg border border-white border-opacity-10" width="80" alt="Doctor">
-                <div class="ms-4">
-                    <h5 class="fw-800 mb-1">Dr. Vikram Singh</h5>
-                    <p class="text-primary-gradient fw-600 mb-0">Cardiologist</p>
-                    <div class="small text-warning">
-                        <i class="bi bi-star-fill"></i> 4.8 <span class="text-muted">(850 reviews)</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-4">
-                <p class="text-muted smaller mb-2">SPECIALIZATION</p>
-                <div class="d-flex flex-wrap gap-2">
-                    <span class="glass-card px-2 py-1 smaller border-0" style="background: rgba(255,255,255,0.05);">Heart Surgery</span>
-                    <span class="glass-card px-2 py-1 smaller border-0" style="background: rgba(255,255,255,0.05);">Diagnostics</span>
-                </div>
-            </div>
-
-            <div class="d-flex gap-2">
-                <a href="#" class="btn-premium flex-grow-1 justify-content-center py-2 opacity-50 cursor-not-allowed">
-                    <i class="bi bi-calendar-event-fill"></i> Book Slot
-                </a>
-                <button class="btn glass-card border-0 p-2 px-3 text-white">
-                    <i class="bi bi-info-circle-fill"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Contact Info Card -->
-    <div class="col-xl-4">
-        <div class="glass-card p-4 h-100 border-primary border-opacity-20" style="background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, transparent 100%);">
-            <h4 class="fw-800 mb-4">Emergency Support</h4>
-            <p class="text-muted mb-4">Immediate assistance available 24/7 for critical medical situations.</p>
-            
-            <div class="d-flex flex-column gap-3">
-                <div class="d-flex align-items-center p-3 glass-card border-0" style="background: rgba(239, 68, 68, 0.1);">
-                    <div class="bg-danger rounded-4 p-3 me-3">
-                        <i class="bi bi-telephone-plus-fill text-white fs-4"></i>
+<!-- Emergency Action Hero -->
+<div class="row mb-5 animate-slide-up">
+    <div class="col-12">
+        <div class="card bg-danger-gradient text-white border-0 shadow-lg overflow-hidden position-relative">
+            <div class="position-absolute end-0 top-0 h-100 opacity-25" style="width: 300px; background: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath fill=%22white%22 d=%22M50 0L100 50L50 100L0 50Z%22/%3E%3C/svg%3E') center/cover;"></div>
+            <div class="card-body p-4 p-md-5 position-relative z-1 d-flex flex-column flex-md-row justify-content-between align-items-center">
+                <div class="d-flex align-items-center mb-3 mb-md-0">
+                    <div class="bg-white text-danger rounded-circle p-3 me-4 shadow pulse" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-truck-medical fs-1"></i>
                     </div>
                     <div>
-                        <p class="mb-0 smaller text-danger fw-bold">HELPLINE</p>
-                        <h5 class="mb-0 fw-800 text-white">102 / 108</h5>
+                        <h2 class="fw-800 mb-1">Medical Emergency?</h2>
+                        <p class="mb-0 fw-bold opacity-75">Our critical care team is available 24/7. Don't wait.</p>
                     </div>
                 </div>
-
-                <div class="d-flex align-items-center p-3 glass-card border-0">
-                    <div class="bg-primary rounded-4 p-3 me-3">
-                        <i class="bi bi-geo-alt-fill text-white fs-4"></i>
-                    </div>
-                    <div>
-                        <p class="mb-0 smaller text-muted fw-bold">NEAREST CLINIC</p>
-                        <h5 class="mb-0 fw-800 text-white">DocX Hub Central</h5>
-                    </div>
+                <div class="d-flex gap-3">
+                    <a href="tel:108" class="btn btn-light btn-lg text-danger fw-bold rounded-pill px-4 shadow"><i class="fa-solid fa-phone-volume me-2"></i> Call Ambulance (108)</a>
+                    <a href="https://www.google.com/maps/search/Nearest+Emergency+Room/" target="_blank" class="btn btn-outline-light btn-lg rounded-pill px-4 fw-bold"><i class="fa-solid fa-location-dot me-2"></i> Nearest ER</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<!-- Department Quick Links -->
+<div class="row mb-5 text-center animate-slide-up delay-1">
+    <div class="col-12">
+        <h5 class="fw-800 mb-4 text-muted">HOSPITAL DEPARTMENTS</h5>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2 mb-3">
+        <div class="glass-card p-3 h-100 department-card hover-lift cursor-pointer">
+            <i class="fa-solid fa-heart-pulse text-danger fs-1 mb-2"></i>
+            <h6 class="fw-bold mb-0">Cardiology</h6>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2 mb-3">
+        <div class="glass-card p-3 h-100 department-card hover-lift cursor-pointer">
+            <i class="fa-solid fa-brain text-info fs-1 mb-2"></i>
+            <h6 class="fw-bold mb-0">Neurology</h6>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2 mb-3">
+        <div class="glass-card p-3 h-100 department-card hover-lift cursor-pointer">
+            <i class="fa-solid fa-baby text-warning fs-1 mb-2"></i>
+            <h6 class="fw-bold mb-0">Pediatrics</h6>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2 mb-3">
+        <div class="glass-card p-3 h-100 department-card hover-lift cursor-pointer">
+            <i class="fa-solid fa-bone text-secondary fs-1 mb-2"></i>
+            <h6 class="fw-bold mb-0">Orthopedics</h6>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2 mb-3">
+        <div class="glass-card p-3 h-100 department-card hover-lift cursor-pointer">
+            <i class="fa-solid fa-tooth text-primary fs-1 mb-2"></i>
+            <h6 class="fw-bold mb-0">Dental</h6>
+        </div>
+    </div>
+    <div class="col-6 col-md-4 col-lg-2 mb-3">
+        <div class="glass-card p-3 h-100 department-card hover-lift cursor-pointer bg-primary-gradient text-white">
+            <i class="fa-solid fa-grid-2 fs-1 mb-2"></i>
+            <h6 class="fw-bold mb-0 text-white">View All</h6>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4 animate-slide-up delay-2">
+    <!-- Filters Sidebar -->
+    <div class="col-lg-3">
+        <div class="glass-card p-4 border-0 shadow-sm sticky-top" style="top: 100px;">
+            <h5 class="fw-800 mb-4 border-bottom pb-3">Find a Specialist</h5>
+            
+            <div class="mb-4">
+                <label class="form-label smaller fw-bold text-muted">SEARCH DOCTOR</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="bi bi-search"></i></span>
+                    <input type="text" id="doctorSearch" class="form-control border-start-0 ps-0" placeholder="Name or specialty...">
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label smaller fw-bold text-muted">AVAILABILITY</label>
+                <div class="form-check form-switch mb-2">
+                    <input class="form-check-input" type="checkbox" id="filterOnline" checked>
+                    <label class="form-check-label fw-600" for="filterOnline">Available Online Now</label>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="filterClinic">
+                    <label class="form-check-label fw-600" for="filterClinic">In-Clinic Consultations</label>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label smaller fw-bold text-muted">EXPERIENCE</label>
+                <select class="form-select bg-transparent">
+                    <option value="">Any Experience</option>
+                    <option value="5">5+ Years</option>
+                    <option value="10">10+ Years</option>
+                    <option value="15">15+ Years</option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary w-100 fw-bold shadow-sm" onclick="applyFilters()">Apply Filters</button>
+        </div>
+    </div>
+
+    <!-- Doctors Directory -->
+    <div class="col-lg-9">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-800 mb-0">Available Doctors ({{ doctors|length }})</h4>
+            <div class="dropdown">
+                <button class="btn btn-glass btn-sm border dropdown-toggle fw-600" type="button" data-bs-toggle="dropdown">
+                    Sort: Highest Rated
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+                    <li><a class="dropdown-item" href="#">Highest Rated</a></li>
+                    <li><a class="dropdown-item" href="#">Most Experienced</a></li>
+                    <li><a class="dropdown-item" href="#">Lowest Fee</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row g-4" id="doctorGrid">
+            {% for doc in doctors %}
+            <div class="col-md-6 col-xl-6 doctor-card-item">
+                <div class="glass-card p-0 h-100 position-relative overflow-hidden border-0 shadow-sm transition-all hover-lift">
+                    <!-- Status Badge -->
+                    <div class="position-absolute top-0 end-0 p-3 z-1">
+                        {% if doc.status == 'Online' %}
+                        <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 shadow-sm">
+                            <span class="spinner-grow spinner-grow-sm me-1" style="width: 8px; height: 8px;"></span> {{ doc.status }}
+                        </span>
+                        {% elif doc.status == 'Busy' %}
+                        <span class="badge rounded-pill bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 px-3 py-2 shadow-sm">
+                            <i class="fa-solid fa-clock me-1"></i> {{ doc.status }}
+                        </span>
+                        {% else %}
+                        <span class="badge rounded-pill bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 px-3 py-2 shadow-sm">
+                            <i class="fa-solid fa-moon me-1"></i> {{ doc.status }}
+                        </span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="p-4 border-bottom border-secondary border-opacity-10">
+                        <div class="d-flex align-items-start mb-3">
+                            <div class="position-relative">
+                                <img src="{{ doc.image_url }}" class="rounded-circle shadow border border-2 border-white" width="75" height="75" alt="{{ doc.name }}">
+                                {% if doc.rating >= 4.8 %}
+                                <div class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center border border-white" style="width: 24px; height: 24px;" title="Top Rated">
+                                    <i class="fa-solid fa-medal" style="font-size: 10px;"></i>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <div class="ms-3">
+                                <h5 class="fw-800 mb-1">{{ doc.name }}</h5>
+                                <p class="text-primary fw-bold mb-1"><i class="fa-solid fa-stethoscope me-1"></i> {{ doc.specialization }}</p>
+                                <div class="small text-warning fw-bold">
+                                    <i class="bi bi-star-fill"></i> {{ doc.rating }} <span class="text-muted fw-normal">({{ doc.reviews }} reviews)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <div class="bg-light bg-opacity-50 p-2 rounded text-center h-100">
+                                    <div class="smaller text-muted fw-bold mb-1">EXPERIENCE</div>
+                                    <div class="fw-800">{{ doc.experience }} Years</div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="bg-light bg-opacity-50 p-2 rounded text-center h-100">
+                                    <div class="smaller text-muted fw-bold mb-1">CONSULT FEE</div>
+                                    <div class="fw-800 text-success">{{ doc.fee }}</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2">
+                            {% for tag in doc.tags %}
+                            <span class="badge bg-secondary bg-opacity-10 text-body border fw-normal">{{ tag }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-light bg-opacity-10 d-flex gap-2 align-items-center justify-content-between">
+                        <div class="small fw-600 text-muted">
+                            <i class="fa-regular fa-calendar-check text-primary me-1"></i> Next: {{ doc.next_slot }}
+                        </div>
+                        <button class="btn btn-primary btn-sm rounded-pill px-4 fw-bold shadow-sm" onclick="openBookingModal('{{ doc.name }}', '{{ doc.specialization }}', '{{ doc.fee }}')">
+                            Book Slot
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Interactive Appointment Booking Modal -->
+<div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content glass-card border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
+            <div class="modal-header bg-primary text-white border-0 p-4">
+                <div>
+                    <h5 class="modal-title fw-800 mb-1" id="modalDoctorName">Book Appointment</h5>
+                    <p class="mb-0 small opacity-75" id="modalDoctorSpec">Select your preferred time slot</p>
+                </div>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="alert alert-info bg-opacity-10 border-info border-opacity-25 d-flex align-items-center mb-4">
+                    <i class="fa-solid fa-circle-info fs-4 me-3 text-info"></i>
+                    <div class="small">Consultation fee <strong id="modalFee" class="text-info">$0</strong>. Payment will be collected securely at the time of consultation.</div>
+                </div>
+
+                <form id="bookingForm">
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label class="form-label fw-bold smaller text-muted">SELECT DATE</label>
+                        <input type="date" class="form-control bg-light" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold smaller text-muted">AVAILABLE SLOTS</label>
+                        <div class="d-flex flex-wrap gap-2">
+                            <input type="radio" class="btn-check" name="timeSlot" id="slot1" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary rounded-pill px-3" for="slot1">10:00 AM</label>
+
+                            <input type="radio" class="btn-check" name="timeSlot" id="slot2" autocomplete="off">
+                            <label class="btn btn-outline-primary rounded-pill px-3" for="slot2">11:30 AM</label>
+
+                            <input type="radio" class="btn-check" name="timeSlot" id="slot3" autocomplete="off">
+                            <label class="btn btn-outline-primary rounded-pill px-3" for="slot3">02:00 PM</label>
+
+                            <input type="radio" class="btn-check" name="timeSlot" id="slot4" autocomplete="off">
+                            <label class="btn btn-outline-primary rounded-pill px-3" for="slot4">04:30 PM</label>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold smaller text-muted">REASON FOR VISIT</label>
+                        <textarea class="form-control bg-light" rows="3" placeholder="Briefly describe your symptoms..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow">Confirm Appointment</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Booking Modal Logic
+    function openBookingModal(name, spec, fee) {
+        document.getElementById('modalDoctorName').innerText = 'Book ' + name;
+        document.getElementById('modalDoctorSpec').innerText = spec;
+        document.getElementById('modalFee').innerText = fee;
+        
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.querySelector('input[type="date"]').setAttribute('min', today);
+        document.querySelector('input[type="date"]').value = today;
+
+        const modal = new bootstrap.Modal(document.getElementById('bookingModal'));
+        modal.show();
+    }
+
+    // Handle Form Submission
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = this.querySelector('button[type="submit"]');
+        const originalText = btn.innerHTML;
+        
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Processing...';
+        btn.disabled = true;
+
+        const doctorName = document.getElementById('modalDoctorName').innerText.replace('Book ', '');
+        const date = this.querySelector('input[type="date"]').value;
+
+        setTimeout(() => {
+            btn.innerHTML = '<i class="fa-solid fa-check me-2"></i> Appointment Confirmed!';
+            btn.classList.remove('btn-primary');
+            btn.classList.add('btn-success');
+            
+            // Trigger global notification
+            if (typeof window.addNotification === 'function') {
+                window.addNotification(`Your appointment with <strong>${doctorName}</strong> on ${date} is confirmed.`, 'success');
+            }
+            
+            setTimeout(() => {
+                bootstrap.Modal.getInstance(document.getElementById('bookingModal')).hide();
+                // Reset form
+                this.reset();
+                btn.innerHTML = originalText;
+                btn.classList.add('btn-primary');
+                btn.classList.remove('btn-success');
+                btn.disabled = false;
+            }, 1500);
+        }, 1500);
+    });
+
+    // Real-time Search
+    document.getElementById('doctorSearch').addEventListener('keyup', function() {
+        const value = this.value.toLowerCase();
+        const cards = document.querySelectorAll('.doctor-card-item');
+        
+        cards.forEach(card => {
+            const text = card.innerText.toLowerCase();
+            card.style.display = text.includes(value) ? '' : 'none';
+        });
+    });
+
+    // Add extra CSS dynamically for this page
+    const style = document.createElement('style');
+    style.innerHTML = `
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
+        .department-card { border: 1px solid rgba(0,0,0,0.05); }
+        body.dark-mode .department-card { border: 1px solid rgba(255,255,255,0.05); }
+        .cursor-pointer { cursor: pointer; }
+    `;
+    document.head.appendChild(style);
+</script>
 {% endblock %}
