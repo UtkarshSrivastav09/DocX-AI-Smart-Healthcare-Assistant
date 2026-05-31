@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import SymptomEntry
+from .models import SymptomEntry, VitalsRecord
 
 class UserRegistrationForm(UserCreationForm):
     """
@@ -9,35 +9,30 @@ class UserRegistrationForm(UserCreationForm):
     """
     email = forms.EmailField(
         required=True, 
-        help_text="Required. Enter a valid email address.",
         widget=forms.EmailInput(attrs={'class': 'form-control'})
     )
     first_name = forms.CharField(
         max_length=30, 
         required=False, 
-        help_text="Optional.",
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
     last_name = forms.CharField(
         max_length=30, 
         required=False, 
-        help_text="Optional.",
         widget=forms.TextInput(attrs={'class': 'form-control'})
     )
-    username = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control'})
-    )
-    password1 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control'})
-    )
-    password2 = forms.CharField(
-        widget=forms.PasswordInput(attrs={'class': 'form-control'})
-    )
-    
-    class Meta:
+
+    class Meta(UserCreationForm.Meta):
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
-    
+        fields = UserCreationForm.Meta.fields + ('first_name', 'last_name', 'email')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Apply Bootstrap class and placeholder configuration dynamically
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            field.help_text = None
+
     def save(self, commit=True):
         user = super().save(commit=False)
         user.email = self.cleaned_data['email']
@@ -69,3 +64,35 @@ class SymptomEntryForm(forms.ModelForm):
             'severity': 'Severity Level'
         }
 
+
+class VitalsRecordForm(forms.ModelForm):
+    """
+    Form for entering daily health vitals.
+    """
+    class Meta:
+        model = VitalsRecord
+        fields = ['heart_rate', 'blood_oxygen', 'steps', 'weight']
+        widgets = {
+            'heart_rate': forms.NumberInput(attrs={
+                'class': 'form-control bg-light',
+                'placeholder': 'e.g. 72'
+            }),
+            'blood_oxygen': forms.NumberInput(attrs={
+                'class': 'form-control bg-light',
+                'placeholder': 'e.g. 98'
+            }),
+            'steps': forms.NumberInput(attrs={
+                'class': 'form-control bg-light',
+                'placeholder': 'e.g. 5000'
+            }),
+            'weight': forms.NumberInput(attrs={
+                'class': 'form-control bg-light',
+                'placeholder': 'e.g. 70.5'
+            })
+        }
+        labels = {
+            'heart_rate': 'Heart Rate (BPM)',
+            'blood_oxygen': 'Blood Oxygen (SpO2 %)',
+            'steps': 'Daily Steps',
+            'weight': 'Current Weight (kg)'
+        }

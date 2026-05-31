@@ -31,10 +31,10 @@
                             {{ form.symptom_text }}
                         </div>
                         <div class="mt-2 d-flex gap-2 flex-wrap">
-                            <span class="badge bg-secondary bg-opacity-10 text-muted pointer" onclick="addSymptom('High Fever')">+ High Fever</span>
-                            <span class="badge bg-secondary bg-opacity-10 text-muted pointer" onclick="addSymptom('Headache')">+ Headache</span>
-                            <span class="badge bg-secondary bg-opacity-10 text-muted pointer" onclick="addSymptom('Body Aches')">+ Body Aches</span>
-                            <span class="badge bg-secondary bg-opacity-10 text-muted pointer" onclick="addSymptom('Fatigue')">+ Fatigue</span>
+                            <span class="badge bg-secondary bg-opacity-10 text-muted pointer" onclick="addSymptom('High Fever');">+ High Fever</span>
+                            <span class="badge bg-secondary bg-opacity-10 text-muted pointer" onclick="addSymptom('Headache');">+ Headache</span>
+                            <span class="badge bg-secondary bg-opacity-10 text-muted pointer" onclick="addSymptom('Body Aches');">+ Body Aches</span>
+                            <span class="badge bg-secondary bg-opacity-10 text-muted pointer" onclick="addSymptom('Fatigue');">+ Fatigue</span>
                         </div>
                     </div>
 
@@ -80,7 +80,7 @@
                                     <div class="d-flex align-items-center text-primary smaller fw-bold">
                                         <i class="bi bi-info-circle me-2"></i> DATA VERIFIED BY CLINICAL AI MODEL
                                     </div>
-                                    <button type="button" onclick="downloadReport()" class="btn btn-sm btn-primary rounded-pill px-3">
+                                    <button type="button" onclick="downloadReport();" class="btn btn-sm btn-primary rounded-pill px-3">
                                         <i class="bi bi-download me-2"></i> Download Report
                                     </button>
                                 </div>
@@ -182,8 +182,12 @@
         })
         .then((res) => res.json())
         .then((data) => {
-            // 3. Show AI Result with typing effect simulation
-            resultText.innerHTML = data.ai_response;
+            // 3. Show AI Result with simple Markdown formatter
+            let formattedResponse = data.ai_response
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+            
+            resultText.innerHTML = formattedResponse;
             resultText.classList.add('typing-text');
 
             // 4. Save Record in Background

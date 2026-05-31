@@ -148,6 +148,11 @@
               </a>
             </li>
             <li class="nav-item">
+              <a class="nav-link" href="{% url 'pharmacy' %}">
+                <i class="bi bi-capsule"></i> Pharmacy
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link" href="{% url 'doctor_contact' %}">
                 <i class="bi bi-telephone"></i> Contact Doctor
               </a>
@@ -169,7 +174,7 @@
             </li>
             
             <li class="nav-item me-2">
-              <button class="btn btn-link nav-link text-white" id="theme-toggle" onclick="toggleTheme(event)" title="Toggle Dark/Light Mode">
+              <button class="btn btn-link nav-link text-white" id="theme-toggle" onclick="toggleTheme(event);" title="Toggle Dark/Light Mode">
                 <i class="bi bi-sun-fill" id="theme-icon"></i>
               </button>
             </li>
@@ -290,9 +295,28 @@
       {% csrf_token %}
     </form>
 
-    <!-- Preloader Script -->
+    <!-- Global Clinical Synchronization Script -->
     <script>
+      function syncClinicalIdentity() {
+        const savedName = localStorage.getItem('user_name');
+        const savedAvatar = localStorage.getItem('user_avatar');
+        
+        // Update Navbar Brand/Avatar if exists
+        const navBrand = document.querySelector('.navbar-brand');
+        const navUser = document.getElementById('navbarDropdown');
+        
+        if (savedAvatar) {
+            const avatars = document.querySelectorAll('img[src*="ui-avatars.com"], #profile-avatar-img, #edit-avatar-preview');
+            avatars.forEach(img => img.src = savedAvatar);
+        }
+        
+        if (savedName && navUser) {
+            navUser.innerHTML = `<i class="bi bi-person-circle"></i> ${savedName}`;
+        }
+      }
+
       window.addEventListener('load', function() {
+        syncClinicalIdentity();
         const preloader = document.getElementById('preloader');
         if (preloader) {
           preloader.style.opacity = '0';

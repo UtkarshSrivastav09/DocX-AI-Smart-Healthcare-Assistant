@@ -83,13 +83,15 @@
                             </td>
                             <td class="text-end pe-4">
                                 <div class="d-flex justify-content-end gap-2">
-                                    <button class="btn btn-sm btn-glass p-2" title="View Detailed Report" onclick="showReport('{{ symptom.id }}')">
+                                    <button class="btn btn-sm btn-glass p-2" title="View Detailed Report" 
+                                            data-suggestion="{{ symptom.suggestion }}"
+                                            onclick="showReport(this, '{{ symptom.id }}');">
                                         <i class="bi bi-eye-fill"></i>
                                     </button>
                                     <a href="{% url 'delete_symptom' symptom.id %}" 
                                        class="btn btn-sm btn-outline-danger border-0 p-2 opacity-75" 
                                        title="Delete Permanent Record"
-                                       onclick="return confirm('⚠️ WARNING: This will permanently delete this clinical record. Proceed?')">
+                                       onclick="return confirm('⚠️ WARNING: This will permanently delete this clinical record. Proceed?');">
                                         <i class="bi bi-trash3-fill"></i>
                                     </a>
                                 </div>
@@ -144,13 +146,21 @@
     });
 
     // Show Report function
-    function showReport(id) {
+    function showReport(btn, id) {
         const modal = new bootstrap.Modal(document.getElementById('reportModal'));
         modal.show();
-        // In a real app, you would fetch via AJAX. For now, we simulate the structure.
+        
+        const suggestion = btn.getAttribute('data-suggestion') || "No detailed report available.";
+        const formattedSuggestion = suggestion
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\n/g, '<br>');
+
         document.getElementById('reportModalBody').innerHTML = `
             <div class="medical-report-content">
                 <p class="text-primary fw-bold text-uppercase mb-4">Diagnostic Log Entry #DX-${id.padStart(5, '0')}</p>
+                <div class="report-text text-muted mb-4" style="line-height: 1.8;">
+                    ${formattedSuggestion}
+                </div>
                 <div class="alert alert-primary bg-opacity-10 border-0 text-muted small">
                     <i class="bi bi-info-circle me-2"></i> This record is securely stored in the clinical vault. 
                     Full historical data is available for healthcare provider review.

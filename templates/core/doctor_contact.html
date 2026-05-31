@@ -1,202 +1,173 @@
 {% extends 'core/base.html' %}
+{% load static %}
 
 {% block title %}Medical Network | DocX Hospital{% endblock %}
-{% block header_title %}Expert Consultations{% endblock %}
-{% block header_subtitle %}Connect instantly with our verified medical professionals and specialists{% endblock %}
 
 {% block content %}
-<!-- Emergency Action Hero -->
-<div class="row mb-5 animate-slide-up">
+<!-- Medical Command Center Header -->
+<div class="row mb-5 animate-up">
     <div class="col-12">
-        <div class="card bg-danger-gradient text-white border-0 shadow-lg overflow-hidden position-relative">
-            <div class="position-absolute end-0 top-0 h-100 opacity-25" style="width: 300px; background: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpath fill=%22white%22 d=%22M50 0L100 50L50 100L0 50Z%22/%3E%3C/svg%3E') center/cover;"></div>
-            <div class="card-body p-4 p-md-5 position-relative z-1 d-flex flex-column flex-md-row justify-content-between align-items-center">
-                <div class="d-flex align-items-center mb-3 mb-md-0">
-                    <div class="bg-white text-danger rounded-circle p-3 me-4 shadow pulse" style="width: 70px; height: 70px; display: flex; align-items: center; justify-content: center;">
-                        <i class="fa-solid fa-truck-medical fs-1"></i>
+        <div class="card border-0 rounded-24 bg-primary p-4 p-md-5 text-white position-relative overflow-hidden shadow-lg">
+            <div class="profile-scan-line" style="opacity: 0.1;"></div>
+            <div class="position-relative z-1">
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="badge bg-success rounded-pill px-3 py-2 smaller fw-bold shadow-sm">
+                        <span class="pulse-dot bg-white"></span> NETWORK ONLINE
                     </div>
-                    <div>
-                        <h2 class="fw-800 mb-1">Medical Emergency?</h2>
-                        <p class="mb-0 fw-bold opacity-75">Our critical care team is available 24/7. Don't wait.</p>
-                    </div>
+                    <span class="smaller opacity-75 fw-800 text-uppercase text-white" style="letter-spacing: 2px;">Expert Directory v4.0</span>
                 </div>
-                <div class="d-flex gap-3">
-                    <a href="tel:108" class="btn btn-light btn-lg text-danger fw-bold rounded-pill px-4 shadow"><i class="fa-solid fa-phone-volume me-2"></i> Call Ambulance (108)</a>
-                    <a href="https://www.google.com/maps/search/Nearest+Emergency+Room/" target="_blank" class="btn btn-outline-light btn-lg rounded-pill px-4 fw-bold"><i class="fa-solid fa-location-dot me-2"></i> Nearest ER</a>
+                <h1 class="display-4 fw-800 mb-2 text-white">Expert Consultations</h1>
+                <p class="lead opacity-90 mb-4 text-white">Connect with elite medical specialists for personalized care and diagnostic excellence.</p>
+                
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="tel:108" class="btn btn-danger fw-800 rounded-pill px-4 py-3 shadow-lg border-0">
+                        <i class="bi bi-telephone-outbound-fill me-2"></i> EMERGENCY DISPATCH (108)
+                    </a>
+                    <button class="btn bg-white text-primary fw-800 rounded-pill px-4 py-3 shadow-sm border-0" onclick="document.getElementById('doctorSearch').focus();">
+                        <i class="bi bi-search me-2"></i> Find a Specialist
+                    </button>
                 </div>
+            </div>
+            <!-- Decorative Medical Graphic -->
+            <div class="position-absolute end-0 top-0 h-100 d-none d-lg-block opacity-25" style="width: 400px; background: url('https://img.freepik.com/free-vector/abstract-medical-wallpaper-template-design_53876-61845.jpg') center/cover;"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Specialist Quick-Filter Dock -->
+<div class="row mb-5 animate-up">
+    <div class="col-12">
+        <div class="d-flex gap-3 overflow-auto pb-3 specialist-scroll-dock">
+            <div class="specialist-pill active" onclick="filterSpecialty('all')">
+                <i class="bi bi-grid-fill"></i> All Experts
+            </div>
+            <div class="specialist-pill" onclick="filterSpecialty('Cardiology')">
+                <i class="bi bi-heart-pulse-fill text-danger"></i> Cardiology
+            </div>
+            <div class="specialist-pill" onclick="filterSpecialty('Neurology')">
+                <i class="bi bi-brain text-info"></i> Neurology
+            </div>
+            <div class="specialist-pill" onclick="filterSpecialty('Pediatrics')">
+                <i class="bi bi-person-heart text-warning"></i> Pediatrics
+            </div>
+            <div class="specialist-pill" onclick="filterSpecialty('Orthopedics')">
+                <i class="bi bi-bandaid text-secondary"></i> Orthopedics
+            </div>
+            <div class="specialist-pill" onclick="filterSpecialty('Dental')">
+                <i class="bi bi-stars text-primary"></i> Dental
+            </div>
+            <div class="specialist-pill" onclick="filterSpecialty('Dermatology')">
+                <i class="bi bi-sun-fill text-warning"></i> Dermatology
             </div>
         </div>
     </div>
 </div>
 
-<!-- Department Quick Links -->
-<div class="row mb-5 text-center animate-slide-up delay-1">
-    <div class="col-12">
-        <h5 class="fw-800 mb-4 text-muted">HOSPITAL DEPARTMENTS</h5>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2 mb-3">
-        <div class="glass-card p-3 h-100 department-card hover-lift cursor-pointer">
-            <i class="fa-solid fa-heart-pulse text-danger fs-1 mb-2"></i>
-            <h6 class="fw-bold mb-0">Cardiology</h6>
-        </div>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2 mb-3">
-        <div class="glass-card p-3 h-100 department-card hover-lift cursor-pointer">
-            <i class="fa-solid fa-brain text-info fs-1 mb-2"></i>
-            <h6 class="fw-bold mb-0">Neurology</h6>
-        </div>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2 mb-3">
-        <div class="glass-card p-3 h-100 department-card hover-lift cursor-pointer">
-            <i class="fa-solid fa-baby text-warning fs-1 mb-2"></i>
-            <h6 class="fw-bold mb-0">Pediatrics</h6>
-        </div>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2 mb-3">
-        <div class="glass-card p-3 h-100 department-card hover-lift cursor-pointer">
-            <i class="fa-solid fa-bone text-secondary fs-1 mb-2"></i>
-            <h6 class="fw-bold mb-0">Orthopedics</h6>
-        </div>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2 mb-3">
-        <div class="glass-card p-3 h-100 department-card hover-lift cursor-pointer">
-            <i class="fa-solid fa-tooth text-primary fs-1 mb-2"></i>
-            <h6 class="fw-bold mb-0">Dental</h6>
-        </div>
-    </div>
-    <div class="col-6 col-md-4 col-lg-2 mb-3">
-        <div class="glass-card p-3 h-100 department-card hover-lift cursor-pointer bg-primary-gradient text-white">
-            <i class="fa-solid fa-grid-2 fs-1 mb-2"></i>
-            <h6 class="fw-bold mb-0 text-white">View All</h6>
-        </div>
-    </div>
-</div>
-
-<div class="row g-4 animate-slide-up delay-2">
-    <!-- Filters Sidebar -->
-    <div class="col-lg-3">
-        <div class="glass-card p-4 border-0 shadow-sm sticky-top" style="top: 100px;">
-            <h5 class="fw-800 mb-4 border-bottom pb-3">Find a Specialist</h5>
+<div class="row g-4">
+    <!-- Search & Intelligence Sidebar -->
+    <div class="col-lg-3 animate-up">
+        <div class="card border-0 shadow-lg rounded-24 p-4 sticky-top sidebar-glass" style="top: 100px;">
+            <h5 class="fw-800 mb-4 text-content-theme"><i class="bi bi-funnel-fill text-primary me-2"></i>Smart Filter</h5>
             
             <div class="mb-4">
-                <label class="form-label smaller fw-bold text-muted">SEARCH DOCTOR</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-transparent border-end-0 text-muted"><i class="bi bi-search"></i></span>
-                    <input type="text" id="doctorSearch" class="form-control border-start-0 ps-0" placeholder="Name or specialty...">
+                <label class="smaller fw-800 text-muted text-uppercase mb-2 d-block">Doctor Search</label>
+                <div class="position-relative">
+                    <input type="text" id="doctorSearch" class="form-control bg-light border-0 py-3 rounded-12" style="padding-left: 5.5rem;" placeholder="Name or Keyword...">
                 </div>
             </div>
 
             <div class="mb-4">
-                <label class="form-label smaller fw-bold text-muted">AVAILABILITY</label>
+                <label class="smaller fw-800 text-muted text-uppercase mb-2 d-block">Consultation Mode</label>
                 <div class="form-check form-switch mb-2">
-                    <input class="form-check-input" type="checkbox" id="filterOnline" checked>
-                    <label class="form-check-label fw-600" for="filterOnline">Available Online Now</label>
+                    <input class="form-check-input" type="checkbox" checked id="videoFilter">
+                    <label class="form-check-label smaller fw-bold text-content-theme" for="videoFilter">Video Consultations</label>
                 </div>
                 <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="filterClinic">
-                    <label class="form-check-label fw-600" for="filterClinic">In-Clinic Consultations</label>
+                    <input class="form-check-input" type="checkbox" id="clinicFilter">
+                    <label class="form-check-label smaller fw-bold text-content-theme" for="clinicFilter">Physical Clinic</label>
                 </div>
             </div>
 
             <div class="mb-4">
-                <label class="form-label smaller fw-bold text-muted">EXPERIENCE</label>
-                <select class="form-select bg-transparent">
-                    <option value="">Any Experience</option>
-                    <option value="5">5+ Years</option>
-                    <option value="10">10+ Years</option>
-                    <option value="15">15+ Years</option>
+                <label class="smaller fw-800 text-muted text-uppercase mb-2 d-block">Experience Level</label>
+                <select class="form-select bg-light border-0 py-3 rounded-12 text-content-theme">
+                    <option>Any Experience</option>
+                    <option>5+ Years</option>
+                    <option>10+ Years</option>
+                    <option>20+ Years</option>
                 </select>
             </div>
 
-            <button class="btn btn-primary w-100 fw-bold shadow-sm" onclick="applyFilters()">Apply Filters</button>
+            <button class="btn btn-primary w-100 py-3 rounded-pill fw-800 shadow-sm transition-all">
+                APPLY FILTERS
+            </button>
         </div>
     </div>
 
-    <!-- Doctors Directory -->
-    <div class="col-lg-9">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="fw-800 mb-0">Available Doctors ({{ doctors|length }})</h4>
-            <div class="dropdown">
-                <button class="btn btn-glass btn-sm border dropdown-toggle fw-600" type="button" data-bs-toggle="dropdown">
-                    Sort: Highest Rated
-                </button>
-                <ul class="dropdown-menu dropdown-menu-end shadow">
-                    <li><a class="dropdown-item" href="#">Highest Rated</a></li>
-                    <li><a class="dropdown-item" href="#">Most Experienced</a></li>
-                    <li><a class="dropdown-item" href="#">Lowest Fee</a></li>
-                </ul>
-            </div>
-        </div>
-
+    <!-- Doctor Directory Grid -->
+    <div class="col-lg-9 animate-up">
         <div class="row g-4" id="doctorGrid">
             {% for doc in doctors %}
-            <div class="col-md-6 col-xl-6 doctor-card-item">
-                <div class="glass-card p-0 h-100 position-relative overflow-hidden border-0 shadow-sm transition-all hover-lift">
-                    <!-- Status Badge -->
-                    <div class="position-absolute top-0 end-0 p-3 z-1">
-                        {% if doc.status == 'Online' %}
-                        <span class="badge rounded-pill bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-2 shadow-sm">
-                            <span class="spinner-grow spinner-grow-sm me-1" style="width: 8px; height: 8px;"></span> {{ doc.status }}
-                        </span>
-                        {% elif doc.status == 'Busy' %}
-                        <span class="badge rounded-pill bg-warning bg-opacity-10 text-warning border border-warning border-opacity-25 px-3 py-2 shadow-sm">
-                            <i class="fa-solid fa-clock me-1"></i> {{ doc.status }}
-                        </span>
-                        {% else %}
-                        <span class="badge rounded-pill bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 px-3 py-2 shadow-sm">
-                            <i class="fa-solid fa-moon me-1"></i> {{ doc.status }}
-                        </span>
-                        {% endif %}
+            <div class="col-md-6 col-xl-4 doctor-card-item" data-specialty="{{ doc.specialization }}">
+                <div class="card border-0 shadow-lg rounded-24 overflow-hidden h-100 hover-doctor-card d-flex flex-column">
+                    <div class="p-4 flex-grow-1">
+                        <!-- Status & Rating -->
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <div class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-1 smaller fw-bold">
+                                <span class="pulse-dot"></span> {{ doc.status|upper }}
+                            </div>
+                            <div class="text-warning smaller fw-800 bg-light px-2 py-1 rounded-pill">
+                                <i class="bi bi-star-fill"></i> {{ doc.rating }}
+                            </div>
+                        </div>
+
+                        <div class="text-center mb-4">
+                            <div class="position-relative d-inline-block">
+                                <!-- Targeted Identity Logic: Specific photo for Utkarsh Sri, Unique Pravatars for others -->
+                                {% if doc.name == 'Dr. Utkarsh Sri' %}
+                                    <img src="{{ doc.image_url }}" class="rounded-circle border-4 border-white shadow-sm" width="100" height="100" style="object-fit: cover;">
+                                {% else %}
+                                    <img src="https://i.pravatar.cc/300?u={{ doc.name|urlencode }}" class="rounded-circle border-4 border-white shadow-sm" width="100" height="100" style="object-fit: cover;">
+                                {% endif %}
+                                <div class="verified-check-mini">
+                                    <i class="bi bi-patch-check-fill"></i>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <h5 class="fw-800 mb-0 text-content-theme">{{ doc.name }}</h5>
+                                <p class="text-primary smaller fw-bold mb-0 text-uppercase" style="letter-spacing: 1px;">{{ doc.specialization }}</p>
+                                <p class="text-muted smaller mb-0 fw-600">{{ doc.experience }} Years Experience</p>
+                            </div>
+                        </div>
+
+                        <!-- Stats Row -->
+                        <div class="row g-2 mb-4">
+                            <div class="col-6 text-center p-2 rounded-12 bg-light">
+                                <div class="smaller text-muted fw-800 text-uppercase mb-1" style="font-size: 0.65rem;">Fee</div>
+                                <div class="fw-800 text-success">{{ doc.fee }}</div>
+                            </div>
+                            <div class="col-6 text-center p-2 rounded-12 bg-light">
+                                <div class="smaller text-muted fw-800 text-uppercase mb-1" style="font-size: 0.65rem;">Patients</div>
+                                <div class="fw-800 text-primary">{{ doc.reviews }}+</div>
+                            </div>
+                        </div>
                     </div>
                     
-                    <div class="p-4 border-bottom border-secondary border-opacity-10">
-                        <div class="d-flex align-items-start mb-3">
-                            <div class="position-relative">
-                                <img src="{{ doc.image_url }}" class="rounded-circle shadow border border-2 border-white" width="75" height="75" alt="{{ doc.name }}">
-                                {% if doc.rating >= 4.8 %}
-                                <div class="position-absolute bottom-0 end-0 bg-primary text-white rounded-circle d-flex align-items-center justify-content-center border border-white" style="width: 24px; height: 24px;" title="Top Rated">
-                                    <i class="fa-solid fa-medal" style="font-size: 10px;"></i>
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div class="ms-3">
-                                <h5 class="fw-800 mb-1">{{ doc.name }}</h5>
-                                <p class="text-primary fw-bold mb-1"><i class="fa-solid fa-stethoscope me-1"></i> {{ doc.specialization }}</p>
-                                <div class="small text-warning fw-bold">
-                                    <i class="bi bi-star-fill"></i> {{ doc.rating }} <span class="text-muted fw-normal">({{ doc.reviews }} reviews)</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row g-2 mb-3">
+                    <!-- Actions at the Bottom -->
+                    <div class="p-4 pt-0">
+                        <div class="row g-2">
                             <div class="col-6">
-                                <div class="bg-light bg-opacity-50 p-2 rounded text-center h-100">
-                                    <div class="smaller text-muted fw-bold mb-1">EXPERIENCE</div>
-                                    <div class="fw-800">{{ doc.experience }} Years</div>
-                                </div>
+                                <a href="{% url 'consultation_hub' doc.name %}" class="btn btn-outline-primary w-100 py-3 rounded-pill fw-800 smaller shadow-sm">
+                                    <i class="bi bi-camera-video me-1"></i> ONLINE
+                                </a>
                             </div>
                             <div class="col-6">
-                                <div class="bg-light bg-opacity-50 p-2 rounded text-center h-100">
-                                    <div class="smaller text-muted fw-bold mb-1">CONSULT FEE</div>
-                                    <div class="fw-800 text-success">{{ doc.fee }}</div>
-                                </div>
+                                <button class="btn btn-primary w-100 py-3 rounded-pill fw-800 smaller shadow-sm" 
+                                        onclick="openBookingModal('{{ doc.name }}', '{{ doc.specialization }}', '{{ doc.fee }}')">
+                                    <i class="bi bi-calendar-check me-1"></i> BOOK
+                                </button>
                             </div>
                         </div>
-
-                        <div class="d-flex flex-wrap gap-2">
-                            {% for tag in doc.tags %}
-                            <span class="badge bg-secondary bg-opacity-10 text-body border fw-normal">{{ tag }}</span>
-                            {% endfor %}
-                        </div>
-                    </div>
-
-                    <div class="p-3 bg-light bg-opacity-10 d-flex gap-2 align-items-center justify-content-between">
-                        <div class="small fw-600 text-muted">
-                            <i class="fa-regular fa-calendar-check text-primary me-1"></i> Next: {{ doc.next_slot }}
-                        </div>
-                        <button class="btn btn-primary btn-sm rounded-pill px-4 fw-bold shadow-sm" onclick="openBookingModal('{{ doc.name }}', '{{ doc.specialization }}', '{{ doc.fee }}')">
-                            Book Slot
-                        </button>
                     </div>
                 </div>
             </div>
@@ -205,132 +176,148 @@
     </div>
 </div>
 
-<!-- Interactive Appointment Booking Modal -->
+<!-- Premium Booking Modal -->
 <div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content glass-card border-0 shadow-lg" style="border-radius: 20px; overflow: hidden;">
-            <div class="modal-header bg-primary text-white border-0 p-4">
+        <div class="modal-content border-0 shadow-lg rounded-24 overflow-hidden">
+            <div class="modal-header bg-primary text-white py-4 border-0">
                 <div>
-                    <h5 class="modal-title fw-800 mb-1" id="modalDoctorName">Book Appointment</h5>
-                    <p class="mb-0 small opacity-75" id="modalDoctorSpec">Select your preferred time slot</p>
+                    <h5 class="modal-title fw-800 mb-0" id="modalDoctorName">Confirm Consultation</h5>
+                    <p class="smaller opacity-75 mb-0" id="modalDoctorSpec">Connecting with Specialist...</p>
                 </div>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body p-4">
-                <div class="alert alert-info bg-opacity-10 border-info border-opacity-25 d-flex align-items-center mb-4">
-                    <i class="fa-solid fa-circle-info fs-4 me-3 text-info"></i>
-                    <div class="small">Consultation fee <strong id="modalFee" class="text-info">$0</strong>. Payment will be collected securely at the time of consultation.</div>
-                </div>
-
+            <div class="modal-body p-4 p-md-5">
                 <form id="bookingForm">
-                    {% csrf_token %}
                     <div class="mb-4">
-                        <label class="form-label fw-bold smaller text-muted">SELECT DATE</label>
-                        <input type="date" class="form-control bg-light" required>
+                        <label class="smaller fw-800 text-muted text-uppercase mb-2 d-block">Select Consultation Date</label>
+                        <input type="date" class="form-control bg-light border-0 py-3 px-3 rounded-12" required id="bookingDate">
                     </div>
-                    
-                    <div class="mb-4">
-                        <label class="form-label fw-bold smaller text-muted">AVAILABLE SLOTS</label>
+                    <div class="mb-5">
+                        <label class="smaller fw-800 text-muted text-uppercase mb-2 d-block">Preferred Time Slot</label>
                         <div class="d-flex flex-wrap gap-2">
-                            <input type="radio" class="btn-check" name="timeSlot" id="slot1" autocomplete="off" checked>
-                            <label class="btn btn-outline-primary rounded-pill px-3" for="slot1">10:00 AM</label>
-
-                            <input type="radio" class="btn-check" name="timeSlot" id="slot2" autocomplete="off">
-                            <label class="btn btn-outline-primary rounded-pill px-3" for="slot2">11:30 AM</label>
-
-                            <input type="radio" class="btn-check" name="timeSlot" id="slot3" autocomplete="off">
-                            <label class="btn btn-outline-primary rounded-pill px-3" for="slot3">02:00 PM</label>
-
-                            <input type="radio" class="btn-check" name="timeSlot" id="slot4" autocomplete="off">
-                            <label class="btn btn-outline-primary rounded-pill px-3" for="slot4">04:30 PM</label>
+                            <input type="radio" class="btn-check" name="slot" id="slotA" checked>
+                            <label class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold smaller" for="slotA">09:00 AM</label>
+                            
+                            <input type="radio" class="btn-check" name="slot" id="slotB">
+                            <label class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold smaller" for="slotB">11:30 AM</label>
+                            
+                            <input type="radio" class="btn-check" name="slot" id="slotC">
+                            <label class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold smaller" for="slotC">03:00 PM</label>
                         </div>
                     </div>
-
-                    <div class="mb-4">
-                        <label class="form-label fw-bold smaller text-muted">REASON FOR VISIT</label>
-                        <textarea class="form-control bg-light" rows="3" placeholder="Briefly describe your symptoms..." required></textarea>
+                    <div class="mb-4 text-center p-3 rounded-24 bg-primary bg-opacity-10 border border-primary border-opacity-10">
+                        <span class="smaller fw-bold text-content-theme opacity-75">Consultation Fee: </span>
+                        <span class="fw-800 text-success fs-4" id="modalFee">$0</span>
                     </div>
-
-                    <button type="submit" class="btn btn-primary w-100 py-3 fw-bold rounded-pill shadow">Confirm Appointment</button>
+                    <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-800 shadow-sm">
+                        BOOK APPOINTMENT
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-{% endblock %}
+<style>
+    /* Premium Doctor Directory Styles */
+    .specialist-scroll-dock { scrollbar-width: none; -ms-overflow-style: none; }
+    .specialist-scroll-dock::-webkit-scrollbar { display: none; }
+    
+    .specialist-pill {
+        white-space: nowrap; padding: 12px 24px; background: white;
+        border-radius: 100px; font-weight: 800; font-size: 0.85rem;
+        cursor: pointer; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #f1f5f9;
+    }
+    
+    .specialist-pill:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.05); }
+    .specialist-pill.active { background: #0d6efd; color: white; border-color: #0d6efd; }
+    .specialist-pill.active i { color: white !important; }
 
-{% block extra_js %}
+    .hover-doctor-card { transition: all 0.4s ease; border: 1px solid transparent !important; }
+    .hover-doctor-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.08) !important; border-color: rgba(13, 110, 253, 0.1) !important; }
+    
+    .verified-check-mini {
+        position: absolute; bottom: 0; right: 0; background: #0d6efd;
+        color: white; width: 28px; height: 28px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        border: 3px solid white; font-size: 14px;
+    }
+
+    .sidebar-glass { background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(10px); }
+
+    /* Theme Awareness Overrides */
+    .text-content-theme { color: #1e293b; }
+    body.dark-mode .text-content-theme { color: #f8fafc; }
+    body.dark-mode .specialist-pill { background: #1e293b; border-color: rgba(255,255,255,0.05); color: #f8fafc; }
+    body.dark-mode .sidebar-glass { background: rgba(30, 41, 59, 0.8); }
+    body.dark-mode .bg-light { background: rgba(255,255,255,0.03) !important; }
+    body.dark-mode .modal-content { background: #1e293b; }
+    body.dark-mode .verified-check-mini { border-color: #1e293b; }
+    
+    .rounded-12 { border-radius: 12px !important; }
+</style>
+
 <script>
-    // Booking Modal Logic
+    function filterSpecialty(specialty) {
+        // Update Pills
+        document.querySelectorAll('.specialist-pill').forEach(pill => {
+            pill.classList.remove('active');
+            if(specialty === 'all' && pill.innerText.includes('All')) pill.classList.add('active');
+            else if(pill.innerText.includes(specialty)) pill.classList.add('active');
+        });
+
+        // Filter Cards
+        const cards = document.querySelectorAll('.doctor-card-item');
+        cards.forEach(card => {
+            if(specialty === 'all' || card.getAttribute('data-specialty') === specialty) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
     function openBookingModal(name, spec, fee) {
         document.getElementById('modalDoctorName').innerText = 'Book ' + name;
         document.getElementById('modalDoctorSpec').innerText = spec;
         document.getElementById('modalFee').innerText = fee;
         
-        // Set minimum date to today
         const today = new Date().toISOString().split('T')[0];
-        document.querySelector('input[type="date"]').setAttribute('min', today);
-        document.querySelector('input[type="date"]').value = today;
+        document.getElementById('bookingDate').value = today;
+        document.getElementById('bookingDate').min = today;
 
         const modal = new bootstrap.Modal(document.getElementById('bookingModal'));
         modal.show();
     }
 
-    // Handle Form Submission
-    document.getElementById('bookingForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const btn = this.querySelector('button[type="submit"]');
-        const originalText = btn.innerHTML;
-        
-        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> Processing...';
-        btn.disabled = true;
-
-        const doctorName = document.getElementById('modalDoctorName').innerText.replace('Book ', '');
-        const date = this.querySelector('input[type="date"]').value;
-
-        setTimeout(() => {
-            btn.innerHTML = '<i class="fa-solid fa-check me-2"></i> Appointment Confirmed!';
-            btn.classList.remove('btn-primary');
-            btn.classList.add('btn-success');
-            
-            // Trigger global notification
-            if (typeof window.addNotification === 'function') {
-                window.addNotification(`Your appointment with <strong>${doctorName}</strong> on ${date} is confirmed.`, 'success');
-            }
-            
-            setTimeout(() => {
-                bootstrap.Modal.getInstance(document.getElementById('bookingModal')).hide();
-                // Reset form
-                this.reset();
-                btn.innerHTML = originalText;
-                btn.classList.add('btn-primary');
-                btn.classList.remove('btn-success');
-                btn.disabled = false;
-            }, 1500);
-        }, 1500);
-    });
-
-    // Real-time Search
     document.getElementById('doctorSearch').addEventListener('keyup', function() {
         const value = this.value.toLowerCase();
         const cards = document.querySelectorAll('.doctor-card-item');
-        
         cards.forEach(card => {
-            const text = card.innerText.toLowerCase();
-            card.style.display = text.includes(value) ? '' : 'none';
+            card.style.display = card.innerText.toLowerCase().includes(value) ? '' : 'none';
         });
     });
 
-    // Add extra CSS dynamically for this page
-    const style = document.createElement('style');
-    style.innerHTML = `
-        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important; }
-        .department-card { border: 1px solid rgba(0,0,0,0.05); }
-        body.dark-mode .department-card { border: 1px solid rgba(255,255,255,0.05); }
-        .cursor-pointer { cursor: pointer; }
-    `;
-    document.head.appendChild(style);
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = this.querySelector('button[type="submit"]');
+        btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span> CONFIRMING...';
+        btn.disabled = true;
+
+        setTimeout(() => {
+            btn.innerHTML = '<i class="bi bi-check-circle-fill me-2"></i> BOOKED SUCCESSFULLY';
+            btn.classList.replace('btn-primary', 'btn-success');
+            
+            setTimeout(() => {
+                bootstrap.Modal.getInstance(document.getElementById('bookingModal')).hide();
+                btn.innerHTML = 'INITIALIZE APPOINTMENT';
+                btn.classList.replace('btn-success', 'btn-primary');
+                btn.disabled = false;
+                addNotification("Appointment Confirmed!", "success");
+            }, 1500);
+        }, 1500);
+    });
 </script>
 {% endblock %}

@@ -14,6 +14,7 @@ urlpatterns = [
     
     # Dashboard
     path('dashboard/', views.dashboard_view, name='dashboard'),
+    path('log-vitals/', views.log_vitals_view, name='log_vitals'),
     
     # Symptom management
     path('add-symptom/', views.add_symptom_view, name='add_symptom'),
@@ -30,6 +31,8 @@ urlpatterns = [
     # Doctor contact
     path('doctor-contact/', views.doctor_contact_view, name='doctor_contact'),
     path('book-appointment/', views.book_appointment, name='book_appointment'),
+    path('consult/<str:doctor_name>/', views.consultation_hub, name='consultation_hub'),
+    path('pharmacy/', views.medicine_store_view, name='pharmacy'),
     
     # Redirect root to dashboard (if logged in) or login
     path('', views.dashboard_view, name='home'),
