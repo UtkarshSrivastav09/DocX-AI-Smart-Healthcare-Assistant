@@ -8,6 +8,8 @@
 
 **DocX** is a cutting-edge, Django-powered Smart Healthcare Assistant and Clinical Decision Support System. It integrates advanced language modeling via the **Groq AI (Llama 3.1)** framework to provide patients with instant, structured clinical reports. The platform empowers users to monitor their health trends, log vitals, chat with medical specialists, book appointments, and browse over-the-counter medicine listings.
 
+Project is Live at: http://Utkarsh09.pythonanywhere.com
+
 ---
 
 ## 🏛️ Project Leadership
